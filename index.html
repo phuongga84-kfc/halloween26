@@ -108,7 +108,7 @@
     .cloud-one { top: 26%; left: -20%; }
     .cloud-two { top: 39%; left: 50%; opacity: .48; animation-duration: 52s; animation-direction: reverse; transform: scale(.82); }
     .cloud-three { top: 61%; left: -25%; opacity: .35; animation-duration: 68s; transform: scale(1.05); }
-    @keyframes cloud-drift { from { margin-left: -8%; } to { margin-left: 118%; } }
+    @keyframes cloud-drift { from { translate: -8vw 0; } to { translate: 118vw 0; } }
 
     .web {
       position: absolute;
@@ -316,7 +316,7 @@
     .rain-layer { position: fixed; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
     .candy {
       position: absolute;
-      top: -90px;
+      top: 0;
       width: 64px;
       height: 76px;
       padding: 0;
@@ -325,15 +325,13 @@
       cursor: pointer;
       pointer-events: auto;
       filter: drop-shadow(0 8px 9px rgba(0, 0, 0, .32));
-      animation: candy-fall var(--duration, 7s) linear forwards, candy-sway 1.3s ease-in-out infinite alternate;
-      animation-delay: 0s, .4s;
+      animation: candy-fall var(--duration, 7s) linear forwards;
       touch-action: manipulation;
     }
-    .candy svg { display: block; width: 100%; height: 100%; overflow: visible; }
-    @keyframes candy-fall { to { top: calc(100% + 100px); } }
-    @keyframes candy-sway { from { margin-left: -8px; rotate: -8deg; } to { margin-left: 8px; rotate: 8deg; } }
-    .candy.is-popped { animation: candy-pop .28s ease forwards; pointer-events: none; }
-    @keyframes candy-pop { to { opacity: 0; scale: 1.8; filter: blur(5px); } }
+    .candy svg { display: block; width: 100%; height: 100%; overflow: visible; animation: candy-sway 1.3s ease-in-out .4s infinite alternate; }
+    @keyframes candy-fall { from { translate: 0 -90px; } to { translate: 0 calc(100vh + 100px); } }
+    @keyframes candy-sway { from { transform: translateX(-8px) rotate(-8deg); } to { transform: translateX(8px) rotate(8deg); } }
+    .candy.is-popped { animation-play-state: paused; opacity: 0; scale: 1.8; transition: opacity .28s ease, scale .28s ease; pointer-events: none; }
 
     .panel-backdrop, .scare-screen {
       position: fixed;
@@ -389,6 +387,7 @@
     .scene.is-playing .spider-string { opacity: 0; visibility: hidden; }
     .scene.is-playing .hint { opacity: 0; transition: opacity .5s ease; }
     .scene.is-playing .rain-layer { pointer-events: auto; }
+    .scene.is-paused * { animation-play-state: paused !important; }
 
     @media (max-width: 560px) {
       .scene {
@@ -403,7 +402,12 @@
       .cloud-one { top: 25%; }
       .cloud-two { top: 39%; }
       .cloud-three { top: 64%; }
+      .cloud { filter: blur(5px); }
+      .cloud-two, .cloud-three { display: none; }
+      .grain { display: none; }
+      .moon { box-shadow: 0 0 18px rgba(255, 224, 171, .25), 0 0 44px rgba(255, 205, 145, .12); }
       .ghost { top: 14%; right: 4%; width: clamp(44px, 12vw, 54px); opacity: .56; }
+      .ghost { filter: none; }
       .hand-emerge { right: 8%; bottom: 7vh; width: 148px; height: 180px; }
       .web { width: 142px; }
       .intro { padding-top: 35px; }
@@ -411,7 +415,12 @@
       h1 span:last-child { font-size: clamp(43px, 12.2vw, 58px); }
       .intro-copy { max-width: 300px; line-height: 1.35; }
       .hint { right: 12px; bottom: 12px; font-size: 9px; }
-      .candy { width: 58px; height: 70px; }
+      .candy { width: 54px; height: 64px; filter: none; }
+      .start-button { animation: none; background-position: 50% 50%; box-shadow: 0 0 16px rgba(241, 55, 30, .25); }
+      h1, h1 span { animation: none; filter: none; }
+      .rolling-pumpkin { filter: none; }
+      .hand-emerge { filter: none; }
+      .panel-backdrop, .scare-screen { backdrop-filter: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; }
@@ -437,7 +446,7 @@
     </div>
     <div class="spider-string" aria-hidden="true"><span class="spider"><span class="eyes">••</span></span></div>
     <div class="haunt-layer" aria-hidden="true">
-      <span class="ghost"><img src="assets/ghost.png" alt=""></span>
+      <span class="ghost"><img src="assets/ghost.webp" alt="" width="300" height="219" decoding="async"></span>
       <span class="grave-pop">
         <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
           <path d="M16 121V45C16 22 30 8 50 8s34 14 34 37v76z" fill="#494452" stroke="#918494" stroke-width="4"/>
@@ -447,7 +456,7 @@
       </span>
       <span class="rolling-pumpkin">🎃</span>
       <span class="hand-emerge">
-        <img src="assets/tay.png" alt="">
+        <img src="assets/tay.webp" alt="" width="400" height="300" decoding="async">
       </span>
     </div>
 
@@ -471,11 +480,13 @@
   </section>
 
   <section class="scare-screen" id="scareScreen" aria-label="Video Halloween" hidden>
-    <video id="scareVideo" playsinline preload="auto"></video>
+    <video id="scareVideo" playsinline preload="none"></video>
     <span class="scare-close-hint">Bấm bất cứ đâu để đóng</span>
   </section>
 
   <script>
+    const lowPowerMode = window.matchMedia("(max-width: 560px), (prefers-reduced-motion: reduce)").matches
+      || (Number(navigator.deviceMemory) > 0 && Number(navigator.deviceMemory) <= 4);
     const CONFIG = {
       scareChance: 70, // Phần trăm mỗi lần bấm túi kẹo sẽ bị hù (0–100)
       videos: ["1.mp4", "22.mp4"], 
@@ -483,8 +494,8 @@
         title: "Bạn nhận được kẹo!",
         body: "Chúc bạn một Halloween vui vẻ!"
       },
-      candyInterval: 520,
-      maxCandies: 16
+      candyInterval: lowPowerMode ? 950 : 700,
+      maxCandies: lowPowerMode ? 8 : 12
     };
 
     const scene = document.getElementById("scene");
@@ -518,8 +529,22 @@
       rainTimer = window.setInterval(spawnCandy, CONFIG.candyInterval);
     }
 
+    function pauseScene() {
+      scene.classList.add("is-paused");
+      if (rainTimer !== null) {
+        window.clearInterval(rainTimer);
+        rainTimer = null;
+      }
+    }
+
+    function resumeScene() {
+      if (document.hidden || !scareScreen.hidden || !messagePanel.hidden) return;
+      scene.classList.remove("is-paused");
+      if (started && rainTimer === null) rainTimer = window.setInterval(spawnCandy, CONFIG.candyInterval);
+    }
+
     function spawnCandy() {
-      if (document.hidden || !started || rainLayer.childElementCount >= CONFIG.maxCandies) return;
+      if (document.hidden || !started || !scareScreen.hidden || !messagePanel.hidden || rainLayer.childElementCount >= CONFIG.maxCandies) return;
       const candy = document.createElement("button");
       const duration = 6.5 + Math.random() * 5.5;
       candy.type = "button";
@@ -527,7 +552,6 @@
       candy.setAttribute("aria-label", "Bấm để nhặt túi kẹo");
       candy.style.left = `${Math.random() * 92}%`;
       candy.style.setProperty("--duration", `${duration}s`);
-      candy.style.animationDuration = `${duration}s, 1.3s`;
       candy.innerHTML = candyArt;
       candy.addEventListener("click", () => chooseCandy(candy), { once: true });
       candy.addEventListener("animationend", (event) => {
@@ -549,11 +573,13 @@
       messageTitle.textContent = CONFIG.safeMessage.title;
       messageBody.textContent = CONFIG.safeMessage.body;
       messagePanel.hidden = false;
+      pauseScene();
       messageClose.focus();
     }
 
     function closeMessage() {
       messagePanel.hidden = true;
+      resumeScene();
     }
 
     function playScare() {
@@ -562,6 +588,7 @@
         showSafeMessage();
         return;
       }
+      pauseScene();
       const source = videos[Math.floor(Math.random() * videos.length)];
       scareScreen.hidden = false;
       scareVideo.src = source;
@@ -576,6 +603,7 @@
       scareVideo.removeAttribute("src");
       scareVideo.load();
       scareScreen.hidden = true;
+      resumeScene();
     }
 
     startButton.addEventListener("click", beginGame);
@@ -589,6 +617,10 @@
         closeScare();
         closeMessage();
       }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) pauseScene();
+      else resumeScene();
     });
   </script>
 </body>
