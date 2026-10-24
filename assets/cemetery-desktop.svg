@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#100d1b"/><stop offset=".53" stop-color="#21182e"/><stop offset="1" stop-color="#110e19"/></linearGradient>
+    <linearGradient id="earth" x2="0" y2="1"><stop stop-color="#30223a"/><stop offset="1" stop-color="#0a0a12"/></linearGradient>
+    <radialGradient id="fog"><stop stop-color="#b98caf" stop-opacity=".35"/><stop offset="1" stop-color="#8d659a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glow"><stop stop-color="#fff0a2"/><stop offset=".32" stop-color="#ff9b39" stop-opacity=".72"/><stop offset="1" stop-color="#ff7627" stop-opacity="0"/></radialGradient>
+    <linearGradient id="orange" x2="0" y2="1"><stop stop-color="#ffbc61"/><stop offset=".52" stop-color="#f47728"/><stop offset="1" stop-color="#a83e20"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="28"/></filter>
+    <g id="jack"><path d="M-4-42q-3-25 22-31l11 8-12 25" fill="#58643b" stroke="#263027" stroke-width="4"/><ellipse rx="57" ry="45" fill="url(#orange)" stroke="#9c4827" stroke-width="4"/><path d="M0-43q-15 20-8 84M-24-39q-23 21-15 67M24-39q23 21 15 67" fill="none" stroke="#ffd17a" stroke-opacity=".38" stroke-width="4"/><path d="M-37-8l20 12-23 13zm74 0L17 4l23 13zM-23 23q23-17 46 0l-7 13h-32z" fill="#251421"/></g>
+    <g id="tree" fill="none" stroke="#0c0b14" stroke-linecap="round" stroke-linejoin="round"><path d="M0 830Q40 600 18 390T65 70M21 545Q-61 467-74 347M18 429q85-63 116-174M28 651q76-70 146-107M18 390Q-51 304-63 206M42 298q83-63 105-156M-63 348l-42-70m35 79-10-113m118 19 54-60m-63 75 3-123M37 535l68-39m-73 26 12-104m-68-188-29-72m37 85 40-90m104 63 47-64" stroke-width="24"/><path d="M0 830Q40 600 18 390T65 70M21 545Q-61 467-74 347M18 429q85-63 116-174M28 651q76-70 146-107M18 390Q-51 304-63 206" stroke="#282036" stroke-width="5" opacity=".48"/></g>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <ellipse cx="980" cy="710" rx="960" ry="190" fill="url(#fog)" filter="url(#blur)"/>
+  <path d="M0 640q172-122 345-17 144-96 294 4 180-115 360-3 152-102 305 4 188-112 350 0 150-102 266 4v448H0z" fill="#171321" opacity=".93"/>
+  <use href="#tree" transform="translate(90 0) scale(1.2)"/><use href="#tree" transform="translate(1840 0) scale(-1.18 1.15)"/>
+  <path d="M0 789q208-105 403 5t371-7q219-101 417 5t380-8q194-84 349 1v295H0z" fill="url(#earth)"/>
+  <ellipse cx="960" cy="817" rx="875" ry="120" fill="url(#fog)" opacity=".65"/>
+  <g fill="#373044" stroke="#65516b" stroke-opacity=".55" stroke-width="5"><path d="M151 809v-90q0-42 42-42t42 42v90z"/><path d="M334 808v-108q0-28 29-28h44q29 0 29 28v108z"/><path d="M541 815v-82q0-44 44-44t44 44v82z"/><path d="M1247 815v-107q0-29 30-29h44q30 0 30 29v107z"/><path d="M1460 814v-86q0-43 44-43t44 43v86z"/><path d="M1664 815v-105q0-29 29-29h44q29 0 29 29v105z"/></g>
+  <g fill="none" stroke="#b59ab8" stroke-opacity=".43" stroke-width="5"><path d="M193 704v34m-14-17h28m222-38v34m-14-17h28m170 52v34m-14-17h28m717-73v34m-14-17h28m213 37v34m-14-17h28m205-70v34m-14-17h28"/></g>
+  <g fill="#100e18" opacity=".92"><path d="M0 774h1920v15H0zM0 823h1920v14H0z"/><path d="M10 774l17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43m47 0 17-43 17 43"/></g>
+  <ellipse cx="320" cy="886" rx="145" ry="110" fill="url(#glow)" filter="url(#blur)"/><g transform="translate(320 862) scale(1.05)"><use href="#jack"/></g>
+  <ellipse cx="1601" cy="888" rx="151" ry="115" fill="url(#glow)" filter="url(#blur)"/><g transform="translate(1601 863) scale(1.1)"><use href="#jack"/></g>
+  <g transform="translate(680 899) scale(.57)" opacity=".78"><use href="#jack"/></g><g transform="translate(1230 906) scale(.52)" opacity=".78"><use href="#jack"/></g>
+  <path d="M0 912q170-52 340 0t340 0q165-50 330 0t330 0q190-51 340 0t240-4v172H0z" fill="#c49dc3" opacity=".12" filter="url(#blur)"/>
+  <path d="M0 1000q250-42 480 0t460 0q210-40 420 0t560-4v84H0z" fill="#080a11" opacity=".78"/>
+</svg>
