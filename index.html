@@ -399,27 +399,19 @@
         background-size: cover;
       }
       .moon { top: 9%; }
-      .cloud-one { top: 25%; }
-      .cloud-two { top: 39%; }
-      .cloud-three { top: 64%; }
-      .cloud { filter: blur(5px); }
-      .cloud-two, .cloud-three { display: none; }
+      .cloud, .web, .spider-string, .haunt-layer { display: none; }
       .grain { display: none; }
+      .stars { opacity: .4; }
       .moon { box-shadow: 0 0 18px rgba(255, 224, 171, .25), 0 0 44px rgba(255, 205, 145, .12); }
-      .ghost { top: 14%; right: 4%; width: clamp(44px, 12vw, 54px); opacity: .56; }
-      .ghost { filter: none; }
-      .hand-emerge { right: 8%; bottom: 7vh; width: 148px; height: 180px; }
-      .web { width: 142px; }
       .intro { padding-top: 35px; }
       h1 { font-size: clamp(56px, 16vw, 74px); }
       h1 span:last-child { font-size: clamp(43px, 12.2vw, 58px); }
       .intro-copy { max-width: 300px; line-height: 1.35; }
       .hint { right: 12px; bottom: 12px; font-size: 9px; }
       .candy { width: 54px; height: 64px; filter: none; }
+      .candy svg { animation: none; }
       .start-button { animation: none; background-position: 50% 50%; box-shadow: 0 0 16px rgba(241, 55, 30, .25); }
       h1, h1 span { animation: none; filter: none; }
-      .rolling-pumpkin { filter: none; }
-      .hand-emerge { filter: none; }
       .panel-backdrop, .scare-screen { backdrop-filter: none; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -485,7 +477,7 @@
   </section>
 
   <script>
-    const lowPowerMode = window.matchMedia("(max-width: 560px), (prefers-reduced-motion: reduce)").matches
+    const lowPowerMode = window.matchMedia("(max-width: 720px), (pointer: coarse), (prefers-reduced-motion: reduce)").matches
       || (Number(navigator.deviceMemory) > 0 && Number(navigator.deviceMemory) <= 4);
     const CONFIG = {
       scareChance: 70, // Phần trăm mỗi lần bấm túi kẹo sẽ bị hù (0–100)
@@ -494,8 +486,8 @@
         title: "Bạn nhận được kẹo!",
         body: "Chúc bạn một Halloween vui vẻ!"
       },
-      candyInterval: lowPowerMode ? 950 : 700,
-      maxCandies: lowPowerMode ? 8 : 12
+      candyInterval: lowPowerMode ? 1450 : 700,
+      maxCandies: lowPowerMode ? 4 : 12
     };
 
     const scene = document.getElementById("scene");
